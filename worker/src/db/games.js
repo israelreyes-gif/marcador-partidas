@@ -2,16 +2,13 @@
 const LIST_FIELDS =
   "id, name, min_players, max_players, deck, win_mode, score_limit, is_builtin";
 
-export async function listGames(db, { deck, mine, q }) {
+export async function listGames(db, { deck, q }) {
   const where = [];
   const params = [];
 
   if (deck) {
     where.push("deck = ?");
     params.push(deck);
-  }
-  if (mine) {
-    where.push("is_builtin = 0");
   }
   if (q) {
     where.push("name LIKE ?");
