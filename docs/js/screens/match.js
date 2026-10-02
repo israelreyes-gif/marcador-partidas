@@ -223,14 +223,17 @@ export async function matchScreen({ id }) {
 
   function draw() {
     const editable = match.canEdit && match.status === "active";
+    // replaceChildren convertiría un null en el texto "null", así que se quitan
     root.replaceChildren(
-      matchHeader(match),
-      scoreboard(match),
-      banner(),
-      actions(),
-      h("h2", { class: "section-title" }, "Rondas"),
-      roundsTable(match, editable ? onEditRound : null),
-      match.canEdit ? h("button", { type: "button", class: "btn-text btn-text--danger", onclick: onDelete }, "Borrar partida") : null
+      ...[
+        matchHeader(match),
+        scoreboard(match),
+        banner(),
+        actions(),
+        h("h2", { class: "section-title" }, "Rondas"),
+        roundsTable(match, editable ? onEditRound : null),
+        match.canEdit ? h("button", { type: "button", class: "btn-text btn-text--danger", onclick: onDelete }, "Borrar partida") : null,
+      ].filter(Boolean)
     );
   }
 
