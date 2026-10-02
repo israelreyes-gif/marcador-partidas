@@ -105,19 +105,22 @@ export async function gamesScreen() {
       loadGames();
     },
   });
-  const playersControl = h(
+
+  // Escala: una marca por cada posición del deslizador, alineada con el círculo
+  const steps = MAX_PLAYERS - SLIDER_ANY;
+  const scale = h(
     "div",
-    { class: "slider-box" },
-    playersValue,
-    playersSlider,
-    h(
-      "div",
-      { class: "slider-scale", "aria-hidden": "true" },
-      h("span", {}, "Todos"),
-      h("span", {}, String(MIN_PLAYERS)),
-      h("span", {}, String(MAX_PLAYERS))
+    { class: "slider-scale", "aria-hidden": "true" },
+    Array.from({ length: steps + 1 }, (_, index) =>
+      h(
+        "span",
+        { style: `left: calc(14px + (100% - 28px) * ${index / steps})` },
+        index === 0 ? "Todos" : String(SLIDER_ANY + index)
+      )
     )
   );
+
+  const playersControl = h("div", { class: "slider-box" }, playersValue, playersSlider, scale);
 
   drawChips();
   loadGames();
