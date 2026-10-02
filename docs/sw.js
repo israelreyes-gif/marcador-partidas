@@ -1,9 +1,10 @@
 // Service worker: guarda en el móvil los ficheros de la app para que se abra
-// aunque no haya conexión. Primero intenta la red (así siempre ves la última
-// versión) y, si falla, usa la copia guardada.
+// aunque no haya conexión. Primero pregunta siempre al servidor si el fichero
+// ha cambiado (por su fecha de modificación): si hay versión nueva la descarga
+// y, si no hay conexión, usa la copia guardada.
 // Los datos de las partidas NO se guardan: vienen siempre del servidor.
 
-const CACHE = "marcador-v1";
+const CACHE = "marcador-v2";
 const CACHEABLE_HOSTS = ["fonts.googleapis.com", "fonts.gstatic.com"];
 
 self.addEventListener("install", () => self.skipWaiting());
@@ -34,7 +35,8 @@ self.addEventListener("fetch", (event) => {
 async function networkFirst(request) {
   const cache = await caches.open(CACHE);
   try {
-    const response = await fetch(request);
+    // "no-cache": el navegador revalida con el servidor antes de usar su caché
+    const response = await fetch(request, { cache: "no-cache" });
     if (response.ok || response.type === "opaque") cache.put(request, response.clone());
     return response;
   } catch (err) {
