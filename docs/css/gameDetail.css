@@ -1,0 +1,48 @@
+/* Detalle de un juego */
+
+.detail-head { display: flex; align-items: center; gap: 16px; }
+.detail-head h1 { font-size: 34px; line-height: 1.1; }
+
+.game-suit--big { width: 64px; height: 64px; border-radius: 16px; font-size: 36px; }
+
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag { padding: 6px 12px; border-radius: 14px; background: var(--surface); font-size: 13px; }
+
+.tabs { display: flex; border-bottom: 1px solid #2C5A47; }
+
+.tab {
+  flex-grow: 1;
+  height: 44px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.tab[aria-pressed="true"] {
+  border-bottom-color: var(--accent);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.tab-content { display: flex; flex-direction: column; gap: 12px; }
+
+.text-block { line-height: 1.5; }
+.text-list { padding-left: 20px; display: flex; flex-direction: column; gap: 6px; line-height: 1.4; }
+
+.score-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid #2C5A47;
+}
+
+.score-value { color: var(--accent); font-weight: 700; text-align: right; }
+.score-note { font-size: 13px; }
+
+.detail-cta { margin-top: 8px; }
