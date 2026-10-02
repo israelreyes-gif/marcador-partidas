@@ -12,7 +12,14 @@
 
 * { box-sizing: border-box; margin: 0; }
 
-html, body { height: 100%; }
+html, body {
+  height: 100%;
+  /* sin rebote al llegar al final de la pantalla ni "tirar para recargar" */
+  overscroll-behavior: none;
+  /* solo se permite desplazar; sin zoom con el pellizco ni con doble toque */
+  touch-action: pan-x pan-y;
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
   background: var(--bg);
