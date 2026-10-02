@@ -12,6 +12,8 @@ const DECKS = {
   otra: "Otra baraja",
 };
 
+const SUITS = ["♦", "♠", "♥", "♣"];
+
 export function playersLabel(game) {
   return game.min_players === game.max_players
     ? `${game.min_players} jugadores`
@@ -24,4 +26,13 @@ export function winModeLabel(game) {
 
 export function deckLabel(game) {
   return DECKS[game.deck] ?? "";
+}
+
+// Palo que se usa como icono del juego (siempre el mismo para el mismo juego)
+export function suitOf(game) {
+  return SUITS[game.id % SUITS.length];
+}
+
+export function isRedSuit(suit) {
+  return suit === "♦" || suit === "♥";
 }
