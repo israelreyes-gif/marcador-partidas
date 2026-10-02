@@ -1,0 +1,163 @@
+/* Marcador de una partida */
+
+.match-title { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.match-title h1 { font-size: 28px; line-height: 1.1; }
+
+.share-btn {
+  flex-shrink: 0;
+  height: 40px;
+  padding: 0 16px;
+  border: 1.5px solid #2C5A47;
+  border-radius: 20px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.tag-code { letter-spacing: 1px; font-weight: 700; color: var(--accent); }
+
+.dot { display: inline-block; flex-shrink: 0; width: 12px; height: 12px; border-radius: 50%; }
+
+/* Tarjetas de jugadores */
+.scoreboard { display: grid; gap: 8px; }
+
+.player-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 6px;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  background: var(--surface);
+  min-width: 0;
+}
+
+.player-card.is-leader { border-color: var(--accent); }
+.player-card.is-out { opacity: 0.55; }
+
+.avatar--small { width: 28px; height: 28px; font-size: 13px; }
+.avatar--tiny { display: inline-flex; width: 24px; height: 24px; font-size: 12px; }
+
+.player-name { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }
+.player-total { font-family: var(--font-title); font-size: 28px; font-weight: 700; line-height: 1; }
+
+.bar { width: 100%; height: 4px; border-radius: 2px; background: var(--bg); }
+.bar-fill { height: 4px; border-radius: 2px; }
+
+.player-caption { min-height: 16px; font-size: 12px; color: var(--muted); }
+.is-leader .player-caption { color: var(--accent); font-weight: 700; }
+
+/* Avisos y botones */
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: var(--surface);
+  font-size: 14px;
+}
+
+.banner--win { background: var(--accent); color: #14281F; font-weight: 700; justify-content: center; }
+
+.actions-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+.btn-secondary { background: transparent; border: 1.5px solid #2C5A47; color: var(--text); font-weight: 500; }
+.btn-secondary:disabled { opacity: 0.4; cursor: default; }
+
+.btn-text {
+  align-self: center;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn-text--danger { color: var(--danger); margin-top: 8px; }
+
+.section-title { font-size: 20px; margin-top: 4px; }
+
+/* Historial de rondas */
+.rounds { display: flex; flex-direction: column; }
+
+.round-row {
+  display: grid;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  padding: 12px 4px;
+  border: 0;
+  border-bottom: 1px solid #2C5A47;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: center;
+}
+
+.round-row--tap { cursor: pointer; }
+.round-row--tap:active { background: var(--surface); }
+.round-head { color: var(--muted); font-size: 13px; padding-top: 4px; padding-bottom: 8px; text-align: left; }
+.round-number { color: var(--muted); font-size: 13px; text-align: left; }
+.round-cell { text-align: center; font-variant-numeric: tabular-nums; }
+
+/* Ventana emergente */
+.sheet {
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  margin: auto auto 0;
+  padding: 16px 16px calc(24px + env(safe-area-inset-bottom));
+  border: 0;
+  border-radius: 20px 20px 0 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.sheet::backdrop { background: rgba(0, 0, 0, 0.6); }
+.sheet-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.sheet-head h2 { font-size: 22px; }
+
+.score-field { display: flex; align-items: center; gap: 10px; }
+.score-field-name { flex-grow: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.score-input { width: 120px; text-align: right; font-size: 20px; }
+
+.pick-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pick-none { background: transparent; border: 1.5px solid #2C5A47; color: var(--muted); }
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  max-width: calc(100% - 32px);
+  padding: 12px 18px;
+  border-radius: 24px;
+  background: var(--text);
+  color: #14281F;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 10;
+}
