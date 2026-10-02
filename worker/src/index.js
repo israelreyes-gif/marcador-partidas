@@ -2,9 +2,11 @@ import { createRouter } from "./lib/router.js";
 import { error } from "./lib/response.js";
 import { preflight, withCors } from "./lib/cors.js";
 import { registerHealth } from "./routes/health.js";
+import { registerGames } from "./routes/games.js";
 
 const router = createRouter();
 registerHealth(router);
+registerGames(router);
 
 export default {
   async fetch(request, env, ctx) {
