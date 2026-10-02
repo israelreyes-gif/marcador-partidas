@@ -1,0 +1,58 @@
+:root {
+  --bg: #0F2F24;
+  --surface: #1A4333;
+  --accent: #E8B04A;
+  --text: #F4EFE3;
+  --muted: #A9BDB2;
+  --danger: #E26D5C;
+  --radius: 16px;
+  --font-body: "DM Sans", system-ui, sans-serif;
+  --font-title: "Fraunces", Georgia, serif;
+}
+
+* { box-sizing: border-box; margin: 0; }
+
+html, body { height: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.4;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#app {
+  max-width: 480px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 16px 16px calc(24px + env(safe-area-inset-bottom));
+}
+
+h1, h2, h3 { font-family: var(--font-title); font-weight: 700; }
+
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.muted { color: var(--muted); }
+.error { color: var(--danger); }
+
+.btn {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--bg);
+  font: inherit;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
