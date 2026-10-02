@@ -1,0 +1,15 @@
+{
+  "name": "marcador-worker",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-01",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "marcador-db",
+      "database_id": "PEGA_AQUI_EL_ID_DE_TU_D1"
+    }
+  ],
+  "vars": {
+    "ALLOWED_ORIGIN": "https://israelreyes-gif.github.io"
+  }
+}
