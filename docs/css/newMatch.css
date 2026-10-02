@@ -1,0 +1,100 @@
+/* Nueva partida */
+
+.stack-sm { display: flex; flex-direction: column; gap: 8px; }
+
+.section-label {
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.player-rows { display: flex; flex-direction: column; gap: 8px; }
+.player-row { display: flex; align-items: center; gap: 10px; }
+
+.avatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #14281F;
+  font-weight: 700;
+}
+
+.player-row .input { min-width: 0; flex-grow: 1; border-radius: 12px; }
+
+.icon-btn {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  cursor: pointer;
+}
+
+.btn-dashed {
+  height: 48px;
+  border: 1.5px dashed var(--accent);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-dashed[hidden] { display: none; }
+
+.segmented { display: flex; gap: 4px; padding: 4px; border-radius: 14px; background: var(--surface); }
+
+.segmented button {
+  flex-grow: 1;
+  height: 40px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.segmented button[aria-pressed="true"] { background: var(--accent); color: #14281F; font-weight: 700; }
+
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 6px 6px 16px;
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.stepper-controls { display: flex; align-items: center; gap: 4px; }
+
+.stepper-controls button {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.stepper-value { min-width: 48px; text-align: center; font-family: var(--font-title); font-size: 22px; font-weight: 700; }
+
+.hint { font-size: 13px; }
+
+.check { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+.check input { width: 20px; height: 20px; accent-color: var(--accent); }
+
+.btn:disabled { opacity: 0.6; cursor: default; }
