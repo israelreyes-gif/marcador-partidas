@@ -1,13 +1,10 @@
 import { h } from "./dom.js";
-import { playersLabel, winModeLabel } from "./gameFormat.js";
-
-const SUITS = ["♦", "♠", "♥", "♣"];
-const RED_SUITS = ["♦", "♥"];
+import { playersLabel, winModeLabel, suitOf, isRedSuit } from "./gameFormat.js";
 
 // Tarjeta de un juego en la lista. Lleva a su pantalla de detalle.
 export function gameCard(game) {
-  const suit = SUITS[game.id % SUITS.length];
-  const suitClass = RED_SUITS.includes(suit) ? "game-suit game-suit--red" : "game-suit";
+  const suit = suitOf(game);
+  const suitClass = isRedSuit(suit) ? "game-suit game-suit--red" : "game-suit";
 
   return h(
     "a",
