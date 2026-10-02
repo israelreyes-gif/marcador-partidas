@@ -6,7 +6,6 @@ export function registerGames(router) {
   router.add("GET", "/api/games", async ({ env, url }) => {
     const games = await listGames(env.DB, {
       deck: url.searchParams.get("deck"),
-      mine: url.searchParams.get("mine") === "1",
       q: url.searchParams.get("q")?.trim(),
     });
     return json({ games });
