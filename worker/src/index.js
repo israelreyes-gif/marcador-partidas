@@ -1,0 +1,21 @@
+import { createRouter } from "./lib/router.js";
+import { error } from "./lib/response.js";
+import { preflight, withCors } from "./lib/cors.js";
+import { registerHealth } from "./routes/health.js";
+
+const router = createRouter();
+registerHealth(router);
+
+export default {
+  async fetch(request, env, ctx) {
+    if (request.method === "OPTIONS") return preflight(env);
+
+    try {
+      const response = await router.handle(request, env, ctx);
+      return withCors(response ?? error("No encontrado", 404), env);
+    } catch (err) {
+      console.error(err);
+      return withCors(error("Error interno", 500), env);
+    }
+  },
+};
