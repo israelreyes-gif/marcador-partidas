@@ -6,12 +6,16 @@ import { registerHealth } from "./routes/health.js";
 import { registerGames } from "./routes/games.js";
 import { registerMatches } from "./routes/matches.js";
 import { registerRounds } from "./routes/rounds.js";
+import { registerMatchActions } from "./routes/matchActions.js";
+import { registerMatchList } from "./routes/matchList.js";
 
 const router = createRouter();
 registerHealth(router);
 registerGames(router);
 registerMatches(router);
 registerRounds(router);
+registerMatchActions(router);
+registerMatchList(router);
 
 export default {
   async fetch(request, env, ctx) {
