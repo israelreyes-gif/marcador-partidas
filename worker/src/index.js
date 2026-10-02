@@ -6,7 +6,7 @@ import { registerGames } from "./routes/games.js";
 
 const router = createRouter();
 registerHealth(router);
-registerGames(router);
+registerGames(router);a
 
 export default {
   async fetch(request, env, ctx) {
