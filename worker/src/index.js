@@ -5,11 +5,13 @@ import { preflight, withCors } from "./lib/cors.js";
 import { registerHealth } from "./routes/health.js";
 import { registerGames } from "./routes/games.js";
 import { registerMatches } from "./routes/matches.js";
+import { registerRounds } from "./routes/rounds.js";
 
 const router = createRouter();
 registerHealth(router);
 registerGames(router);
 registerMatches(router);
+registerRounds(router);
 
 export default {
   async fetch(request, env, ctx) {
