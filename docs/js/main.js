@@ -7,6 +7,7 @@ import { matchScreen } from "./screens/match.js";
 import { myMatchesScreen } from "./screens/myMatches.js";
 import { startBottomNav } from "./ui/bottomNav.js";
 import { registerServiceWorker } from "./registerSw.js";
+import { disableZoom } from "./noZoom.js";
 import { notFoundScreen } from "./screens/notFound.js";
 
 // Cada pantalla nueva se registra aquí con una línea
@@ -20,3 +21,4 @@ addRoute("/partidas", myMatchesScreen);
 startBottomNav(document.getElementById("nav"));
 startRouter(document.getElementById("app"), notFoundScreen);
 registerServiceWorker();
+disableZoom();
