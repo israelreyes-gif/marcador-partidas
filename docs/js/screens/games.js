@@ -1,6 +1,7 @@
 import { h } from "../ui/dom.js";
 import { request } from "../api/client.js";
 import { gameCard } from "../ui/gameCard.js";
+import { rangeSlider } from "../ui/rangeSlider.js";
 
 const DECK_FILTERS = [
   { value: "", label: "Todos" },
@@ -10,7 +11,6 @@ const DECK_FILTERS = [
 
 const MIN_PLAYERS = 2;
 const MAX_PLAYERS = 8;
-const SLIDER_ANY = 1; // posición del deslizador que significa "cualquier número"
 const ANY_LABEL = "Cualquier número";
 const SEARCH_DELAY_MS = 300;
 
@@ -88,39 +88,23 @@ export async function gamesScreen() {
     },
   });
 
-  // Deslizador: 1 = cualquier número, de 2 a 8 = ese número de jugadores
+  // Deslizador: la posición 0 (extremo izquierdo) es "cualquier número";
+  // las siguientes son de MIN_PLAYERS a MAX_PLAYERS.
   const playersValue = h("span", { class: "slider-value" }, ANY_LABEL);
-  const playersSlider = h("input", {
-    type: "range",
-    class: "slider",
-    min: String(SLIDER_ANY),
-    max: String(MAX_PLAYERS),
-    step: "1",
-    value: String(SLIDER_ANY),
-    "aria-label": "Número de jugadores",
-    oninput: (event) => {
-      const value = Number(event.target.value);
-      players = value === SLIDER_ANY ? "" : String(value);
-      playersValue.textContent = value === SLIDER_ANY ? ANY_LABEL : `${value} jugadores`;
+  const labels = [""];
+  for (let count = MIN_PLAYERS; count <= MAX_PLAYERS; count++) labels.push(String(count));
+
+  const playersSlider = rangeSlider({
+    labels,
+    ariaLabel: "Número de jugadores",
+    onChange: (position) => {
+      players = position === 0 ? "" : String(MIN_PLAYERS + position - 1);
+      playersValue.textContent = position === 0 ? ANY_LABEL : `${players} jugadores`;
       loadGames();
     },
   });
 
-  // Escala: una marca por cada posición del deslizador, alineada con el círculo
-  const steps = MAX_PLAYERS - SLIDER_ANY;
-  const scale = h(
-    "div",
-    { class: "slider-scale", "aria-hidden": "true" },
-    Array.from({ length: steps + 1 }, (_, index) =>
-      h(
-        "span",
-        { style: `left: calc(14px + (100% - 28px) * ${index / steps})` },
-        index === 0 ? "Todos" : String(SLIDER_ANY + index)
-      )
-    )
-  );
-
-  const playersControl = h("div", { class: "slider-box" }, playersValue, playersSlider, scale);
+  const playersControl = h("div", { class: "slider-box" }, playersValue, playersSlider.element);
 
   drawChips();
   loadGames();
