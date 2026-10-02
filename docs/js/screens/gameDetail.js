@@ -1,13 +1,8 @@
 import { h } from "../ui/dom.js";
 import { request } from "../api/client.js";
 import { textBlocks, scoringTable } from "../ui/textBlocks.js";
-import {
-  playersLabel,
-  winModeLabel,
-  deckLabel,
-  suitOf,
-  isRedSuit,
-} from "../ui/gameFormat.js";
+import { playersLabel, winModeLabel, deckLabel } from "../ui/gameFormat.js";
+import { suitTile } from "../ui/suitTile.js";
 
 const TABS = [
   { id: "rules", label: "Reglas", render: (game) => textBlocks(game.rules) },
@@ -62,21 +57,11 @@ export async function gameDetailScreen({ id }) {
   }
   drawTabs();
 
-  const suit = suitOf(game);
   return h(
     "section",
     { class: "stack" },
     backLink(),
-    h(
-      "div",
-      { class: "detail-head" },
-      h(
-        "div",
-        { class: isRedSuit(suit) ? "game-suit game-suit--big game-suit--red" : "game-suit game-suit--big", "aria-hidden": "true" },
-        suit
-      ),
-      h("h1", {}, game.name)
-    ),
+    h("div", { class: "detail-head" }, suitTile(game, { big: true }), h("h1", {}, game.name)),
     h(
       "div",
       { class: "tags" },
