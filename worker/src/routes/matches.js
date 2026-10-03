@@ -2,10 +2,12 @@ import { json } from "../lib/response.js";
 import { HttpError } from "../lib/errors.js";
 import { readJson } from "../lib/request.js";
 import { hashPassword } from "../lib/password.js";
-import { parseNewMatch } from "../lib/matchInput.js";
+import { parseNewMatch, applyLinkedUsers } from "../lib/matchInput.js";
+import { getCurrentUser } from "../lib/auth.js";
 import { canEdit, requireView } from "../lib/matchAccess.js";
 import { getGame } from "../db/games.js";
 import { createMatch, getMatchRow, getMatchDetail } from "../db/matches.js";
+import { getUsersByIds } from "../db/users.js";
 
 export function registerMatches(router) {
   // Crear una partida
@@ -17,8 +19,16 @@ export function registerMatches(router) {
     if (!game) throw new HttpError(404, "Juego no encontrado");
 
     const input = parseNewMatch(body, game);
+
+    // Si hay sesión, la partida queda a nombre de ese usuario;
+    // vincular jugadores con usuarios solo se puede estando dentro.
+    const user = await getCurrentUser(request, env);
+    const linkedIds = input.players.map((player) => player.userId).filter((userId) => userId !== null);
+    if (linkedIds.length > 0 && !user) throw new HttpError(401, "Tienes que iniciar sesión");
+    applyLinkedUsers(input.players, await getUsersByIds(env.DB, linkedIds));
+
     const passwordData = input.password ? await hashPassword(input.password) : null;
-    const id = await createMatch(env.DB, { game, input, passwordData });
+    const id = await createMatch(env.DB, { game, input, passwordData, createdByUserId: user?.id ?? null });
 
     const row = await getMatchRow(env.DB, id);
     const match = await getMatchDetail(env.DB, row, true);
