@@ -119,7 +119,6 @@ export async function gamesScreen() {
   return h(
     "section",
     { class: "stack" },
-    h("a", { href: "#/", class: "back-link" }, "‹ Inicio"),
     h("h1", {}, "Juegos de cartas"),
     createBlock,
     search,
