@@ -5,6 +5,7 @@ import { gameDetailScreen } from "./screens/gameDetail.js";
 import { newMatchScreen } from "./screens/newMatch.js";
 import { matchScreen } from "./screens/match.js";
 import { myMatchesScreen } from "./screens/myMatches.js";
+import { accountScreen } from "./screens/account.js";
 import { startBottomNav } from "./ui/bottomNav.js";
 import { registerServiceWorker } from "./registerSw.js";
 import { disableZoom } from "./noZoom.js";
@@ -17,6 +18,7 @@ addRoute("/juego/:id", gameDetailScreen);
 addRoute("/nueva-partida/:gameId", newMatchScreen);
 addRoute("/partida/:id", matchScreen);
 addRoute("/partidas", myMatchesScreen);
+addRoute("/cuenta", accountScreen);
 
 startBottomNav(document.getElementById("nav"));
 startRouter(document.getElementById("app"), notFoundScreen);
