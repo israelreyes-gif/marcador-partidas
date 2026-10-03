@@ -1,6 +1,8 @@
 import { h } from "../ui/dom.js";
 import { authForm } from "../ui/authForm.js";
 import { fetchMe, logout } from "../api/auth.js";
+import { fetchStats } from "../api/stats.js";
+import { statsView } from "../ui/statsView.js";
 import { getSavedUser, clearSession } from "../storage/session.js";
 import { showToast } from "../ui/toast.js";
 
@@ -21,6 +23,7 @@ export async function accountScreen() {
   }
 
   function drawProfile(user) {
+    const stats = h("div", {}, h("p", { class: "muted" }, "Cargando…"));
     root.replaceChildren(
       h(
         "div",
@@ -28,8 +31,14 @@ export async function accountScreen() {
         h("div", { class: "account-avatar", "aria-hidden": "true" }, user.displayName.slice(0, 1).toUpperCase()),
         h("div", {}, h("h1", {}, user.displayName), h("p", { class: "muted" }, `@${user.username}`))
       ),
+      h("div", { class: "section-label" }, "Estadísticas"),
+      stats,
       h("button", { type: "button", class: "btn btn-secondary", onclick: onLogout }, "Cerrar sesión")
     );
+
+    fetchStats()
+      .then((result) => stats.isConnected && stats.replaceChildren(statsView(result)))
+      .catch((err) => stats.isConnected && stats.replaceChildren(h("p", { class: "error" }, err.message)));
   }
 
   async function onLogout() {
@@ -53,7 +62,11 @@ export async function accountScreen() {
   // Hay sesión guardada: se muestra al momento y se comprueba que siga siendo válida
   drawProfile(saved);
   fetchMe()
-    .then(({ user }) => root.isConnected && drawProfile(user))
+    .then(({ user }) => {
+      // solo se redibuja si los datos han cambiado (así no se piden dos veces las estadísticas)
+      const changed = user.displayName !== saved.displayName || user.username !== saved.username;
+      if (root.isConnected && changed) drawProfile(user);
+    })
     .catch((err) => {
       if (err.status === 401) {
         clearSession();
