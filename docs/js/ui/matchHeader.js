@@ -20,7 +20,7 @@ async function shareMatch(match) {
   }
 }
 
-// Cabecera: volver, juego, estado, código y botón de compartir
+// Cabecera: juego, estado, código y botón de compartir
 export function matchHeader(match) {
   const subtitle = match.status === "finished"
     ? "Partida terminada"
@@ -29,7 +29,6 @@ export function matchHeader(match) {
   return h(
     "div",
     { class: "stack-sm" },
-    h("a", { href: "#/", class: "back-link" }, "‹ Inicio"),
     h(
       "div",
       { class: "match-title" },
