@@ -44,3 +44,20 @@ export function getUserBySession(db, tokenHash) {
 export function deleteSession(db, tokenHash) {
   return db.prepare("DELETE FROM sessions WHERE token_hash = ?").bind(tokenHash).run();
 }
+
+// Usuarios cuyo nombre de usuario empieza por el texto escrito (para elegirlos en una partida)
+export async function searchUsers(db, text, limit = 8) {
+  const escaped = text.toLowerCase().replace(/[\\%_]/g, (char) => "\\" + char);
+  const { results } = await db
+    .prepare("SELECT * FROM users WHERE username LIKE ? ESCAPE '\\' ORDER BY username LIMIT ?")
+    .bind(escaped + "%", limit)
+    .all();
+  return results;
+}
+
+export async function getUsersByIds(db, ids) {
+  if (ids.length === 0) return [];
+  const marks = ids.map(() => "?").join(",");
+  const { results } = await db.prepare(`SELECT * FROM users WHERE id IN (${marks})`).bind(...ids).all();
+  return results;
+}
