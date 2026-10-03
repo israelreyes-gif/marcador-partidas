@@ -1,6 +1,22 @@
 // Resumen de varias partidas a la vez, para la pantalla "Mis partidas".
 // Usa 3 consultas en total, sin importar cuántas partidas se pidan.
 
+// Códigos de las partidas de un usuario (las que creó o en las que juega),
+// de la más reciente a la más antigua
+export async function listUserMatchCodes(db, userId, limit = 50) {
+  const { results } = await db
+    .prepare(
+      `SELECT id FROM matches
+        WHERE created_by_user_id = ?1
+           OR id IN (SELECT match_id FROM players WHERE user_id = ?1)
+        ORDER BY updated_at DESC, created_at DESC
+        LIMIT ?2`
+    )
+    .bind(userId, limit)
+    .all();
+  return results.map((row) => row.id);
+}
+
 export async function listMatchSummaries(db, codes) {
   if (codes.length === 0) return [];
   const marks = codes.map(() => "?").join(",");
