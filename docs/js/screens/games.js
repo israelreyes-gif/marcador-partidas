@@ -108,7 +108,7 @@ export async function gamesScreen() {
 
   const playersControl = h("div", { class: "slider-box" }, playersValue, playersSlider.element);
 
-  // Crear juegos propios: hace falta tener sesión
+  // Crear juegos propios: hace falta tener sesión. Va arriba para que siempre se vea
   const createBlock = getToken()
     ? h("button", { type: "button", class: "btn-dashed", onclick: () => navigate("/juego-nuevo") }, "+ Crear un juego")
     : h("p", { class: "muted hint" }, "¿Quieres crear tus propios juegos? ", h("a", { href: "#/cuenta" }, "Inicia sesión"), ".");
@@ -121,10 +121,10 @@ export async function gamesScreen() {
     { class: "stack" },
     h("a", { href: "#/", class: "back-link" }, "‹ Inicio"),
     h("h1", {}, "Juegos de cartas"),
+    createBlock,
     search,
     h("div", { class: "stack-sm" }, h("div", { class: "section-label" }, "Por tipo de baraja"), chips),
     h("div", { class: "stack-sm" }, h("div", { class: "section-label" }, "Por número de jugadores"), playersControl),
-    list,
-    createBlock
+    list
   );
 }
