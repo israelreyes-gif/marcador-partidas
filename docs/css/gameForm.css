@@ -1,0 +1,22 @@
+/* Formulario de juego propio */
+
+.textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px 16px;
+  border: 1px solid #2C5A47;
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  line-height: 1.4;
+  resize: vertical;
+}
+
+.textarea::placeholder { color: var(--muted); }
+
+.owner-actions { display: flex; flex-direction: column; gap: 4px; }
+
+/* "hidden" también debe ocultar estos bloques, que tienen su propio display */
+.stack-sm[hidden],
+.stepper[hidden] { display: none; }
