@@ -1,5 +1,8 @@
 import { h } from "../ui/dom.js";
 import { request } from "../api/client.js";
+import { deleteGame } from "../api/games.js";
+import { navigate } from "../router.js";
+import { showToast } from "../ui/toast.js";
 import { textBlocks, scoringTable } from "../ui/textBlocks.js";
 import {
   playersLabel,
@@ -62,6 +65,27 @@ export async function gameDetailScreen({ id }) {
   }
   drawTabs();
 
+  async function onDelete() {
+    if (!confirm(`¿Borrar el juego «${game.name}»? No se puede recuperar.`)) return;
+    try {
+      await deleteGame(game.id);
+      showToast("Juego borrado");
+      navigate("/juegos");
+    } catch (err) {
+      showToast(err.message);
+    }
+  }
+
+  // Solo quien creó el juego ve estas opciones
+  const ownerActions = game.isMine
+    ? h(
+        "div",
+        { class: "owner-actions" },
+        h("a", { href: `#/juego-editar/${game.id}`, class: "btn btn-secondary" }, "Editar juego"),
+        h("button", { type: "button", class: "btn-text btn-text--danger", onclick: onDelete }, "Borrar juego")
+      )
+    : null;
+
   const suit = suitOf(game);
   return h(
     "section",
@@ -75,7 +99,7 @@ export async function gameDetailScreen({ id }) {
         { class: isRedSuit(suit) ? "game-suit game-suit--big game-suit--red" : "game-suit game-suit--big", "aria-hidden": "true" },
         suit
       ),
-      h("h1", {}, game.name)
+      h("div", {}, h("h1", {}, game.name), game.ownerName ? h("div", { class: "muted" }, `Creado por ${game.ownerName}`) : null)
     ),
     h(
       "div",
@@ -87,6 +111,7 @@ export async function gameDetailScreen({ id }) {
     ),
     tabBar,
     content,
-    h("a", { href: `#/nueva-partida/${game.id}`, class: "btn detail-cta" }, "Nueva partida")
+    h("a", { href: `#/nueva-partida/${game.id}`, class: "btn detail-cta" }, "Nueva partida"),
+    ownerActions
   );
 }
