@@ -11,6 +11,7 @@ import { openSheet, isSheetOpen } from "../ui/sheet.js";
 import { askPassword } from "../ui/passwordPrompt.js";
 import { pickWinner } from "../ui/winnerPicker.js";
 import { showToast } from "../ui/toast.js";
+import { lostState } from "../ui/lostState.js";
 
 const POLL_MS = 5000;
 
@@ -54,10 +55,8 @@ export async function matchScreen({ id }) {
       draw();
       return "ok";
     } catch (err) {
-      root.replaceChildren(
-        h("a", { href: "#/", class: "back-link" }, "‹ Inicio"),
-        h("p", { class: "error" }, err.message)
-      );
+      // Partida que no existe: pantalla simpática. Otros fallos (sin conexión...): el mensaje tal cual
+      root.replaceChildren(err.status === 404 ? lostState() : h("p", { class: "error" }, err.message));
       return "error";
     }
   }
