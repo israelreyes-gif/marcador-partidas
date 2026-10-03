@@ -10,6 +10,7 @@ import { registerMatchActions } from "./routes/matchActions.js";
 import { registerMatchList } from "./routes/matchList.js";
 import { registerAuth } from "./routes/auth.js";
 import { registerUsers } from "./routes/users.js";
+import { registerStats } from "./routes/stats.js";
 
 const router = createRouter();
 registerHealth(router);
@@ -20,6 +21,7 @@ registerMatchActions(router);
 registerMatchList(router);
 registerAuth(router);
 registerUsers(router);
+registerStats(router);
 
 export default {
   async fetch(request, env, ctx) {
