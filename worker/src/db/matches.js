@@ -2,7 +2,7 @@ import { generateMatchCode } from "../lib/matchCode.js";
 
 // Crea la partida y sus jugadores de una sola vez (todo o nada).
 // Si el código generado ya existe, prueba con otro.
-export async function createMatch(db, { game, input, passwordData }) {
+export async function createMatch(db, { game, input, passwordData, createdByUserId = null }) {
   for (let attempt = 0; attempt < 5; attempt++) {
     const id = generateMatchCode();
     try {
@@ -10,8 +10,8 @@ export async function createMatch(db, { game, input, passwordData }) {
         db
           .prepare(
             `INSERT INTO matches
-               (id, game_id, win_mode, score_limit, password_hash, password_salt, is_private)
-             VALUES (?, ?, ?, ?, ?, ?, ?)`
+               (id, game_id, win_mode, score_limit, password_hash, password_salt, is_private, created_by_user_id)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
           )
           .bind(
             id,
@@ -20,14 +20,15 @@ export async function createMatch(db, { game, input, passwordData }) {
             input.scoreLimit,
             passwordData?.hash ?? null,
             passwordData?.salt ?? null,
-            input.isPrivate ? 1 : 0
+            input.isPrivate ? 1 : 0,
+            createdByUserId
           ),
         ...input.players.map((player, index) =>
           db
             .prepare(
-              "INSERT INTO players (match_id, name, color, position) VALUES (?, ?, ?, ?)"
+              "INSERT INTO players (match_id, name, color, position, user_id) VALUES (?, ?, ?, ?, ?)"
             )
-            .bind(id, player.name, player.color, index + 1)
+            .bind(id, player.name, player.color, index + 1, player.userId)
         ),
       ]);
       return id;
@@ -55,7 +56,7 @@ export async function getMatchDetail(db, row, canEdit) {
   const [playersResult, scoresResult] = await db.batch([
     db
       .prepare(
-        `SELECT p.id, p.name, p.color, p.position,
+        `SELECT p.id, p.name, p.color, p.position, p.user_id AS userId,
                 COALESCE(SUM(s.points), 0) AS total
            FROM players p LEFT JOIN scores s ON s.player_id = p.id
           WHERE p.match_id = ?
