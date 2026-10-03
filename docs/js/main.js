@@ -8,6 +8,7 @@ import { matchScreen } from "./screens/match.js";
 import { myMatchesScreen } from "./screens/myMatches.js";
 import { accountScreen } from "./screens/account.js";
 import { startBottomNav } from "./ui/bottomNav.js";
+import { startUserBar } from "./ui/userBar.js";
 import { registerServiceWorker } from "./registerSw.js";
 import { disableZoom } from "./noZoom.js";
 import { notFoundScreen } from "./screens/notFound.js";
@@ -23,6 +24,7 @@ addRoute("/partida/:id", matchScreen);
 addRoute("/partidas", myMatchesScreen);
 addRoute("/cuenta", accountScreen);
 
+startUserBar(document.getElementById("userbar"));
 startBottomNav(document.getElementById("nav"));
 startRouter(document.getElementById("app"), notFoundScreen);
 registerServiceWorker();
