@@ -71,8 +71,8 @@ export async function newMatchScreen({ gameId }) {
     event.preventDefault();
     message.textContent = "";
 
-    const names = players.getNames();
-    if (names.some((name) => !name)) {
+    const list = players.getPlayers();
+    if (list.some((player) => !player.name)) {
       message.textContent = "Pon un nombre a todos los jugadores";
       return;
     }
@@ -81,7 +81,7 @@ export async function newMatchScreen({ gameId }) {
       return;
     }
 
-    const body = { gameId: game.id, players: names.map((name) => ({ name })) };
+    const body = { gameId: game.id, players: list };
     if (game.win_mode !== "rounds") body.winMode = winMode;
     if (game.score_limit !== null) body.scoreLimit = limit;
     if (password.value) body.password = password.value;
