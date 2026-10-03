@@ -98,3 +98,9 @@
 .check input { width: 20px; height: 20px; accent-color: var(--accent); }
 
 .btn:disabled { opacity: 0.6; cursor: default; }
+
+/* Jugadores vinculados a un usuario */
+.input--linked { border-color: var(--accent); }
+.icon-btn svg { display: block; margin: 0 auto; }
+.icon-btn--on { color: var(--accent); }
+.pick-handle { margin-left: auto; color: var(--muted); font-size: 14px; }
