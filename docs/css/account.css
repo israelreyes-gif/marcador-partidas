@@ -18,3 +18,28 @@
   font-size: 30px;
   font-weight: 700;
 }
+
+/* Estadísticas */
+
+.stat-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+
+.stat-tile {
+  padding: 14px 8px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  text-align: center;
+}
+
+.stat-value { font-family: var(--font-title); font-size: 30px; font-weight: 700; color: var(--accent); }
+.stat-label { font-size: 13px; color: var(--muted); }
+
+.game-stat { padding: 12px 14px; border-radius: var(--radius); background: var(--surface); }
+
+.game-stat-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.game-stat-name { font-family: var(--font-title); font-weight: 600; font-size: 18px; }
+.game-stat-rate { font-weight: 700; color: var(--accent); }
+
+.game-stat-bar { height: 6px; margin: 8px 0 6px; border-radius: 3px; background: #2C5A47; overflow: hidden; }
+.game-stat-fill { height: 100%; border-radius: 3px; background: var(--accent); }
+
+.game-stat-meta { font-size: 13px; }
