@@ -8,6 +8,7 @@ import { registerMatches } from "./routes/matches.js";
 import { registerRounds } from "./routes/rounds.js";
 import { registerMatchActions } from "./routes/matchActions.js";
 import { registerMatchList } from "./routes/matchList.js";
+import { registerAuth } from "./routes/auth.js";
 
 const router = createRouter();
 registerHealth(router);
@@ -16,6 +17,7 @@ registerMatches(router);
 registerRounds(router);
 registerMatchActions(router);
 registerMatchList(router);
+registerAuth(router);
 
 export default {
   async fetch(request, env, ctx) {
