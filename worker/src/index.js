@@ -9,6 +9,7 @@ import { registerRounds } from "./routes/rounds.js";
 import { registerMatchActions } from "./routes/matchActions.js";
 import { registerMatchList } from "./routes/matchList.js";
 import { registerAuth } from "./routes/auth.js";
+import { registerUsers } from "./routes/users.js";
 
 const router = createRouter();
 registerHealth(router);
@@ -18,6 +19,7 @@ registerRounds(router);
 registerMatchActions(router);
 registerMatchList(router);
 registerAuth(router);
+registerUsers(router);
 
 export default {
   async fetch(request, env, ctx) {
