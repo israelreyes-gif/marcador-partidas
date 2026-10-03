@@ -14,7 +14,7 @@ export function gameCard(game) {
       "div",
       { class: "game-info" },
       h("div", { class: "game-name" }, game.name),
-      h("div", { class: "game-meta" }, `${playersLabel(game)} · ${winModeLabel(game)}`)
+      h("div", { class: "game-meta" }, `${playersLabel(game)} · ${winModeLabel(game)}${game.isMine ? " · Tuyo" : ""}`)
     ),
     h("div", { class: "game-arrow", "aria-hidden": "true" }, "›")
   );
