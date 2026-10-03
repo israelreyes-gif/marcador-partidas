@@ -3,7 +3,7 @@ function corsHeaders(env) {
   return {
     "Access-Control-Allow-Origin": env.ALLOWED_ORIGIN,
     "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type, X-Match-Password",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Match-Password",
     "Access-Control-Max-Age": "86400",
     "Vary": "Origin",
   };
