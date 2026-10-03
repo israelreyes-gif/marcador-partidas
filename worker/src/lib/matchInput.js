@@ -18,7 +18,7 @@ function parsePlayers(list, game) {
   }
 
   const seen = new Set();
-  return list.map((item, index) => {
+  const players = list.map((item, index) => {
     const name = typeof item?.name === "string" ? item.name.trim() : "";
     if (name.length < 1 || name.length > 30) {
       throw new HttpError(400, "Cada jugador necesita un nombre de 1 a 30 caracteres");
@@ -26,8 +26,39 @@ function parsePlayers(list, game) {
     const key = name.toLowerCase();
     if (seen.has(key)) throw new HttpError(400, "Hay nombres de jugador repetidos");
     seen.add(key);
-    return { name, color: COLORS[index % COLORS.length] };
+    return { name, color: COLORS[index % COLORS.length], userId: parseUserId(item?.userId) };
   });
+
+  const linked = list.map((item) => item?.userId).filter((id) => id !== undefined && id !== null);
+  if (new Set(linked).size !== linked.length) {
+    throw new HttpError(400, "Un mismo usuario no puede estar dos veces en la partida");
+  }
+  return players;
+}
+
+// El jugador puede ser un usuario registrado (userId) o solo un nombre
+function parseUserId(value) {
+  if (value === undefined || value === null) return null;
+  if (!Number.isInteger(value) || value <= 0) throw new HttpError(400, "Usuario no válido");
+  return value;
+}
+
+// Los jugadores vinculados a un usuario usan el nombre de ese usuario.
+// Se vuelve a comprobar que no haya dos jugadores con el mismo nombre.
+export function applyLinkedUsers(players, users) {
+  const byId = new Map(users.map((user) => [user.id, user]));
+  const seen = new Set();
+
+  for (const player of players) {
+    if (player.userId !== null) {
+      const user = byId.get(player.userId);
+      if (!user) throw new HttpError(400, "Usuario no encontrado");
+      player.name = user.display_name;
+    }
+    const key = player.name.toLowerCase();
+    if (seen.has(key)) throw new HttpError(400, "Hay nombres de jugador repetidos");
+    seen.add(key);
+  }
 }
 
 function parsePassword(value) {
