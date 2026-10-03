@@ -2,6 +2,8 @@ import { h } from "../ui/dom.js";
 import { request } from "../api/client.js";
 import { gameCard } from "../ui/gameCard.js";
 import { rangeSlider } from "../ui/rangeSlider.js";
+import { navigate } from "../router.js";
+import { getToken } from "../storage/session.js";
 
 const DECK_FILTERS = [
   { value: "", label: "Todos" },
@@ -106,6 +108,11 @@ export async function gamesScreen() {
 
   const playersControl = h("div", { class: "slider-box" }, playersValue, playersSlider.element);
 
+  // Crear juegos propios: hace falta tener sesión
+  const createBlock = getToken()
+    ? h("button", { type: "button", class: "btn-dashed", onclick: () => navigate("/juego-nuevo") }, "+ Crear un juego")
+    : h("p", { class: "muted hint" }, "¿Quieres crear tus propios juegos? ", h("a", { href: "#/cuenta" }, "Inicia sesión"), ".");
+
   drawChips();
   loadGames();
 
@@ -117,6 +124,7 @@ export async function gamesScreen() {
     search,
     h("div", { class: "stack-sm" }, h("div", { class: "section-label" }, "Por tipo de baraja"), chips),
     h("div", { class: "stack-sm" }, h("div", { class: "section-label" }, "Por número de jugadores"), playersControl),
-    list
+    list,
+    createBlock
   );
 }
