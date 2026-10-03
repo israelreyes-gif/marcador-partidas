@@ -4,6 +4,9 @@
 
 const KEY = "marcador.session";
 
+// Aviso para que la barra de usuario se actualice al entrar o salir
+const notifyChange = () => window.dispatchEvent(new Event("marcador:session"));
+
 function read() {
   try {
     const data = JSON.parse(localStorage.getItem(KEY) ?? "null");
@@ -19,6 +22,7 @@ export function saveSession(token, user) {
   } catch {
     // sin almacenamiento disponible (modo privado...): la sesión dura hasta cerrar la app
   }
+  notifyChange();
 }
 
 export function clearSession() {
@@ -27,6 +31,7 @@ export function clearSession() {
   } catch {
     // nada que borrar
   }
+  notifyChange();
 }
 
 export const getToken = () => read()?.token ?? null;
