@@ -1,0 +1,25 @@
+/* Pantalla de "partida no encontrada" */
+
+.lost-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-top: 24px;
+  text-align: center;
+}
+
+.lost-state h1 { font-size: 24px; line-height: 1.2; }
+.lost-state p { max-width: 320px; }
+
+.lost-art svg { display: block; max-width: 100%; height: auto; }
+.lost-art { animation: lost-wobble 3s ease-in-out infinite; transform-origin: 50% 90%; }
+
+@keyframes lost-wobble {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lost-art { animation: none; }
+}
