@@ -15,6 +15,7 @@ const TABS = [
     icon: "list",
     active: (path) => path === "/partidas" || path.startsWith("/partida/"),
   },
+  { href: "#/cuenta", label: "Cuenta", icon: "user", active: (path) => path === "/cuenta" },
 ];
 
 // Barra de navegación inferior. Marca la sección en la que estás.
