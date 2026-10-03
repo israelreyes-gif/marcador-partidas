@@ -252,8 +252,10 @@ export async function matchScreen({ id }) {
         match = fresh;
         draw();
       }
-    } catch {
-      // sin conexión un momento: se reintenta en la siguiente vuelta
+    } catch (err) {
+      // Otro dispositivo la ha borrado: avisa y vuelve al inicio
+      if (err.status === 404) await refresh();
+      // cualquier otro fallo (p. ej. sin conexión un momento): se reintenta en la siguiente vuelta
     }
   }
   const timer = setInterval(poll, POLL_MS);
