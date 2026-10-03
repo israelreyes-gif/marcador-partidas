@@ -63,7 +63,6 @@ export async function matchScreen({ id }) {
 
   function drawLocked() {
     root.replaceChildren(
-      h("a", { href: "#/", class: "back-link" }, "‹ Inicio"),
       h("h1", {}, `Partida ${code}`),
       h("p", { class: "muted" }, "Esta partida es privada."),
       h("button", { type: "button", class: "btn", onclick: async () => (await firstLoad()) === "cancelled" && drawLocked() }, "Escribir contraseña")
