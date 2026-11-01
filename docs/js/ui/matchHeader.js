@@ -20,8 +20,8 @@ async function shareMatch(match) {
   }
 }
 
-// Cabecera: juego, estado, código y botón de compartir
-export function matchHeader(match) {
+// Cabecera: juego, estado, código y botones de reglas y compartir
+export function matchHeader(match, { onRules } = {}) {
   const subtitle = match.status === "finished"
     ? "Partida terminada"
     : `Ronda ${match.rounds.length + 1}${match.scoreLimit ? ` · Límite ${match.scoreLimit} puntos` : ""}`;
@@ -33,12 +33,18 @@ export function matchHeader(match) {
       "div",
       { class: "match-title" },
       h("div", {}, h("h1", {}, match.game.name), h("div", { class: "muted" }, subtitle)),
-      h("button", { type: "button", class: "share-btn", onclick: () => shareMatch(match) }, "Compartir")
+      h(
+        "div",
+        { class: "match-actions" },
+        h("button", { type: "button", class: "share-btn", onclick: onRules }, "Reglas"),
+        h("button", { type: "button", class: "share-btn", onclick: () => shareMatch(match) }, "Compartir")
+      )
     ),
     h(
       "div",
       { class: "tags" },
       h("span", { class: "tag tag-code" }, `Código ${match.id}`),
+      match.customRules ? h("span", { class: "tag" }, "Reglas propias") : null,
       match.isPrivate ? h("span", { class: "tag" }, "Privada") : null,
       match.hasPassword && !match.isPrivate ? h("span", { class: "tag" }, "Con contraseña") : null
     )

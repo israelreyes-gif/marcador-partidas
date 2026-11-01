@@ -30,3 +30,7 @@ export const reopenMatch = (id, password) =>
   request("POST", `${path(id)}/reopen`, { password }).then((data) => data.match);
 
 export const deleteMatch = (id, password) => request("DELETE", path(id), { password });
+
+// Reglas propias de esta partida. Un texto vacío las quita.
+export const setMatchRules = (id, text, password) =>
+  request("PUT", `${path(id)}/rules`, { body: { text }, password }).then((data) => data.match);

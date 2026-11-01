@@ -2,6 +2,9 @@
 
 .match-title { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
 .match-title h1 { font-size: 28px; line-height: 1.1; }
+.match-actions { display: flex; flex-shrink: 0; gap: 8px; }
+.rules-title { font-size: 18px; }
+.rules-hint { font-size: 13px; }
 
 .share-btn {
   flex-shrink: 0;

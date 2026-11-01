@@ -88,6 +88,7 @@ export async function getMatchDetail(db, row, canEdit) {
     game: { id: row.game_id, name: row.game_name },
     winMode: row.win_mode,
     scoreLimit: row.score_limit,
+    customRules: row.custom_rules ?? null,
     isPrivate: row.is_private === 1,
     hasPassword: row.password_hash !== null,
     canEdit,

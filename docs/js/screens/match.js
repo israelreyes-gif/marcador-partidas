@@ -12,6 +12,7 @@ import { askPassword } from "../ui/passwordPrompt.js";
 import { pickWinner } from "../ui/winnerPicker.js";
 import { showToast } from "../ui/toast.js";
 import { lostState } from "../ui/lostState.js";
+import { openMatchRules } from "../ui/matchRules.js";
 
 const POLL_MS = 5000;
 
@@ -182,6 +183,18 @@ export async function matchScreen({ id }) {
     else showToast("Contraseña incorrecta");
   }
 
+  // Reglas de esta partida: tras guardar se actualiza la pantalla con la partida nueva
+  function onRules() {
+    openMatchRules({
+      match,
+      getPassword: () => password,
+      onSaved: (updated) => {
+        match = updated;
+        draw();
+      },
+    });
+  }
+
   // ---------- pantalla ----------
 
   function banner() {
@@ -224,7 +237,7 @@ export async function matchScreen({ id }) {
     // replaceChildren convertiría un null en el texto "null", así que se quitan
     root.replaceChildren(
       ...[
-        matchHeader(match),
+        matchHeader(match, { onRules }),
         scoreboard(match),
         banner(),
         actions(),
