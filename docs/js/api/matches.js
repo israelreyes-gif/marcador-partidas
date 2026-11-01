@@ -30,3 +30,7 @@ export const reopenMatch = (id, password) =>
   request("POST", `${path(id)}/reopen`, { password }).then((data) => data.match);
 
 export const deleteMatch = (id, password) => request("DELETE", path(id), { password });
+
+// Quién gana: "min" (menos puntos) o "max" (más puntos). Solo con la partida en marcha.
+export const setWinMode = (id, winMode, password) =>
+  request("PUT", `${path(id)}/win-mode`, { body: { winMode }, password }).then((data) => data.match);

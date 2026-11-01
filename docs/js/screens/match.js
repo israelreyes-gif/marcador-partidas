@@ -1,6 +1,6 @@
 import { h } from "../ui/dom.js";
 import { navigate } from "../router.js";
-import { getMatch, addRound, updateRound, undoRound, finishMatch, reopenMatch, deleteMatch } from "../api/matches.js";
+import { getMatch, setWinMode, addRound, updateRound, undoRound, finishMatch, reopenMatch, deleteMatch } from "../api/matches.js";
 import { getSavedPassword, saveMatch, forgetMatch } from "../storage/myMatches.js";
 import { needsWinnerChoice } from "../logic/standings.js";
 import { matchHeader } from "../ui/matchHeader.js";
@@ -12,6 +12,7 @@ import { askPassword } from "../ui/passwordPrompt.js";
 import { pickWinner } from "../ui/winnerPicker.js";
 import { showToast } from "../ui/toast.js";
 import { lostState } from "../ui/lostState.js";
+import { pickWinMode } from "../ui/winModePicker.js";
 
 const POLL_MS = 5000;
 
@@ -182,6 +183,18 @@ export async function matchScreen({ id }) {
     else showToast("Contraseña incorrecta");
   }
 
+  // Cambiar quién gana (menos o más puntos) con la partida en marcha
+  function onWinMode() {
+    pickWinMode({
+      current: match.winMode,
+      onPick: async (winMode) => {
+        match = await setWinMode(code, winMode, password);
+        draw();
+        showToast(winMode === "min" ? "Ahora gana el que menos tenga" : "Ahora gana el que más tenga");
+      },
+    });
+  }
+
   // ---------- pantalla ----------
 
   function banner() {
@@ -224,7 +237,7 @@ export async function matchScreen({ id }) {
     // replaceChildren convertiría un null en el texto "null", así que se quitan
     root.replaceChildren(
       ...[
-        matchHeader(match),
+        matchHeader(match, { onWinMode }),
         scoreboard(match),
         banner(),
         actions(),

@@ -20,8 +20,20 @@ async function shareMatch(match) {
   }
 }
 
+const WIN_LABELS = { min: "Gana el que menos tenga", max: "Gana el que más tenga" };
+
+// Quién gana. Si se puede cambiar (partida en marcha y con permiso), es un botón
+function winModeTag(match, onWinMode) {
+  const label = WIN_LABELS[match.winMode];
+  if (!label) return null;
+  if (match.canEdit && match.status === "active" && onWinMode) {
+    return h("button", { type: "button", class: "tag tag-btn", onclick: onWinMode }, `${label} ✎`);
+  }
+  return h("span", { class: "tag" }, label);
+}
+
 // Cabecera: juego, estado, código y botón de compartir
-export function matchHeader(match) {
+export function matchHeader(match, { onWinMode } = {}) {
   const subtitle = match.status === "finished"
     ? "Partida terminada"
     : `Ronda ${match.rounds.length + 1}${match.scoreLimit ? ` · Límite ${match.scoreLimit} puntos` : ""}`;
@@ -39,6 +51,7 @@ export function matchHeader(match) {
       "div",
       { class: "tags" },
       h("span", { class: "tag tag-code" }, `Código ${match.id}`),
+      winModeTag(match, onWinMode),
       match.isPrivate ? h("span", { class: "tag" }, "Privada") : null,
       match.hasPassword && !match.isPrivate ? h("span", { class: "tag" }, "Con contraseña") : null
     )
